@@ -16,14 +16,16 @@ public class Main{
  Scanner sc = new Scanner(System.in);
  
           
-        int codigo,genero,participante,id,experencia,Sessió
-        ;
+        int codigo,genero,participante,id,experencia,Sessió;
         String sesion=" ",Genere=" ",participant=" ";
+        boolean error=false;
         
         
         System.out.print("Introduzca tu codigo tiene que ser entre 100 y 2100  ?:");
         codigo = sc.nextInt();
-        if(codigo>minCodi && codigo <maxCodi){
+        error=sc.hasNextInt();
+        System.out.print(error);
+        if((codigo>minCodi && codigo <maxCodi)/*&&(error)*/){
             System.out.print("Introduce tu genero , si eres chica pon 1 , si eres chico pon 2 y si no quieres responder pon 3? :");
             genero=sc.nextInt();
             if(genero >= 1 && genero <= 3){
@@ -72,7 +74,7 @@ public class Main{
                                 default:
                                     break;
                             }
-                            System.out.println("Cual es tu id de sesion entre 4 y 27");
+                            System.out.print("Cual es tu id de sesion entre 4 y 27");
                             id=sc.nextInt();
                             if(id>=minId&&id<=maxId)
                             {
