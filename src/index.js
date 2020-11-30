@@ -1,6 +1,6 @@
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
-const api = require('./api');
+const api = require('./Api');
 api.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const port = process.env.PORT || 5000;
