@@ -7,11 +7,11 @@ const swaggerDocument = require('./swagger.json');
 const apijs = require('./api');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-apijs.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const port = process.env.PORT || 5000;
 
-apijs.listen(port, () => {
+app.listen(port, () => {
     console.log("El servidor está inicializado en el puerto "+ port);
 });
 
