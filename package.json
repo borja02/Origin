@@ -1,20 +1,25 @@
 {
-  "name": "cat.inspedralbes.nodejsserver",
+  "name": "swagger2heroku",
   "version": "1.0.0",
-  "description": "",
+  "description": "Heroku server",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/borja02/Origin.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/borja02/Origin/issues"
+  },
+  "homepage": "https://github.com/borja02/Origin#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "swagger-ui-express": "^4.1.4"
-  },
-  "engines": {
-    "node": "12.16.2"
+    "swagger-ui-express": "^4.1.5"
   }
 }
