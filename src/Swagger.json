@@ -1,0 +1,321 @@
+{
+  "swagger": "2.0",
+  "info": {
+      "version": "1.0.0",
+      "title": "Node Players",
+      "description": ""
+  },
+
+  "paths": {
+      "/": {
+          "get": {
+     "description": "Alias del Player que vamos a mostrar",
+            "summary":"Estado del Servidor",
+            "parameters":[],
+            "responses":{
+              "100":{
+                "schema":{
+                  "$ref":"#/definitions/code100"
+                }
+              }
+            }
+          }},
+
+      "/players":{
+          "get":{
+            "tags":["Mostrar Players"],
+     "description":"Muestra todo los Players",
+            "summary":"Mostrar Players",
+            "parameters":[],
+            "responses":{
+              "400":{
+                "description":"OK",
+                "schema":{
+                  "type":"object",
+                  "properties":{
+                    "position":{
+                      "type":"int",
+                      "example":3
+                    },
+                    "alias":{
+                      "type":"str",
+"description":"alias del Player",
+                      "example":"lNark"
+                    },
+                    "name":{
+                      "type":"str",
+       "description":"Nombre del Player",
+                      "example":"Borja"          
+                    },
+                    "surname":{
+                      "type":"str",
+       "description":"Apellido del Player",
+                      "example":"Terron Olmedo"
+                    },
+                    "score":{
+                      "type":"int",
+                      "example":69
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+  
+        "/players/{alias}":{
+          "parameters":[{
+              "name":"alias",
+              "in":"path",
+              "required":true,
+              "description":"Alias del Player que vamos a mostrar",
+              "type":"str"
+            }],
+          "get":{
+            "tags":["Mostrar Players"],
+            "description":"Mostrar un Player especifico",
+            "summary":"Mostrar Players",   
+            "parameters":[{
+                "name":"alias",
+                "in":"path",
+                "required":true,
+                "description":"Alias del Player",
+                "type":"str"
+              }],
+            "responses": {
+              "200": {
+                "description":"El Player ya existe ",
+                "schema":{
+                  "$ref":"#/definitions/code200"
+                }
+              },
+              "504":{
+                "description":"El Player no existe",
+                "schema":{
+                  "$ref":"#/definitions/codeError504"
+                }
+              }
+            }
+          },
+          "post":{
+            "tags":["Editar Player"],
+    "description":"Introducir un nuevo Player",
+            "summary":"Crear Player",
+            "parameters":[{
+                "name":"Player",
+                "in":"body",
+                "description":"Player que  quieras crear",
+                "schema":{
+                  "$ref":"#/definitions/Player"
+                }
+              }],
+            "produces":[
+              "application/json"
+            ],
+            "responses":{
+              "200":{
+                "description":"El Player ha sido creado",
+                "schema":{
+                  "$ref":"#/definitions/Player"
+                }
+              },
+              "201":{
+                "description":"Player Creado",
+                "schema":{
+                  "$ref":"#/definitions/code201"
+                }
+              },
+              "502":{
+                "description":"Es obligatorio los campos nombre apellido y puntuacion",
+                "schema":{
+                  "$ref":"#/definitions/codeError502"
+                }
+              },
+              "503":{
+                "description":"El Player ya existe",
+                "schema":{
+                  "$ref":"#/definitions/codeError503"
+                }
+              }
+            }
+          },
+          "put":{
+            "tags":["Modificar Players"],
+            "description":"Editar un Player",
+            "summary":"Editar un Player",
+            "parameters":[{
+                "name":"Player",
+                "in":"body",
+                "schema":{
+                  "$ref":"#/definitions/Player"
+                }
+              }],
+            "responses":{
+              "200":{
+                "description":"Player ha sido creado con existo",
+                "schema":{
+                  "$ref":"#/definitions/Player"
+                }
+              },
+              "202":{
+                "description":"Player actualizado",
+                "schema":{
+                  "$ref":"#/definitions/code202"
+                }
+              },
+              "502": {
+                "description": "Es obligatorio los campos nombre apellido y puntuacion",
+                "schema": {
+                  "$ref": "#/definitions/codeError502"
+                }
+              },
+              "504": {
+                "description": "Error:Player no existe ",
+                "schema":{
+                  "$ref":"#/definitions/codeError504"
+                }
+              }
+            }
+          }
+        },
+  
+        "/ranking":{
+          "get":{
+            "tags":["Mostrar Players"],
+            "description":"Mostrar todo los players",
+            "summary":"Mostrar Players", 
+            "parameters":[],
+            "responses":{
+              "400": {
+                "description":"Ok",
+                "schema":{
+                  "type":"object",
+                  "properties":{
+                    "position":{
+                      "type":"int",
+                      "example":1
+                    },
+                    "alias":{
+                      "type":"str",
+       "description":"Alias del Player",
+                      "example":"lNark" 
+                    },
+                    "name":{
+                      "type":"str",
+       "description":"Nombre del Player",
+                      "example":"Borja"
+                    },
+                    "surname":{
+                      "type":"str",
+       "description": "Apellidos del Player",
+                      "example":"Terron Olmedo"
+                    },
+                    "score":{
+                      "type":"int",
+                      "example":68
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+  },
+  "definitions":{
+      "Player":{
+        "required": [
+          "name",
+          "surname",
+          "score"
+        ],
+        "properties":{
+          "name":{
+            "type":"str",
+            "uniqueItems":true
+          },
+          "surname":{
+            "type":"str"
+          },
+          "score":{
+            "type":"int"
+          }
+        },
+        "example":{
+          "name":"Borja",
+          "surname":"Terron Olmedo",
+          "score":10
+        }
+      },
+      "code100":{
+        "type":"object",
+        "properties":{
+          "status":{
+            "type":"int",
+    "description":"Servidor-ON",
+            "example":"Servidor inicializado."  
+          }
+        }
+      },
+      "code200": {
+        "type":"object",
+        "properties":{
+          "status":{
+            "type":"int",
+        "description":"Player ya existe",
+            "example":"Player ya existe "
+    
+          }
+        }
+      },
+      "code201":{
+        "type":"object",
+        "properties":{
+          "status":{
+            "type":"int",
+        "description": "Player creado correctamente",
+            "example":"Player creado correctamente"           
+          }
+        }
+      },
+      "code202":{
+        "type":"object",
+        "properties":{
+          "status":{
+            "type":"int",
+    "description": "Player actualizado correctamente",
+            "example":"Player actualizado correctamente"  
+          }
+        }
+      },
+      "codeError502":{
+        "type":"object",
+        "properties":{
+          "status":{
+            "type":"int",
+            "description":"Es obligatorio los campos nombre apellido y puntuacion",
+            "example":"Es obligatorio los campos nombre apellido y puntuacion"
+                        }
+        }
+      },
+      "codeError503": {
+        "type": "object",
+        "properties":{
+          "status":{
+            "type":"int",
+    "description":"Error: Player ya existe",
+            "example":"Error: Player ya existe"
+          }
+        }
+      },
+      "codeError504": {
+        "type":"object",
+        "properties":{
+          "status":{
+            "type":"int",
+     "description":"Error: Player no existe",
+            "example":"Error: Player no existe"    
+          }
+        }
+      }
+    }
+}

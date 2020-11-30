@@ -1,19 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express()
-/*swaggerDocument = require ('./Swagger.json');
-const swaggerUi= require('swagger-ui-express');
-
-app.use('/Api-Swagger',swaggerUi.serve,swaggerUi.setup(swaggerDocument));*/
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 let code100 = { code: 100, error: false, message: '2-DAMVI Server Up' };
 let code200 = { code: 200, error: false, message: 'Player Exists' };
 let code201 = { code: 201, error: false, message: 'Player Correctly Created' };
-let code202 = { code: 201, error: false, message: 'Player Correctly Updated' };
-let codeError502 = { code: 503, error: true, message: 'The field: name, surname, score are mandatories (the score value has to be >0)' };
+let code202 = { code: 202, error: false, message: 'Player Correctly Updated' };
+let codeError502 = { code: 502, error: true, message: 'The field: name, surname, score are mandatories (the score value has to be >0)' };
 let codeError503 = { code: 503, error: true, message: 'Error: Player Exists' };
 let codeError504 = { code: 504, error: true, message: 'Error: Player not found' };
 
@@ -22,13 +17,19 @@ var players = [
     { position: "2", alias: "jsanz", name: "Juan", surname: "Sanz", score: 950, created: "2020-11-03T15:20:21.377Z" },
     { position: "3", alias: "mgutierrez", name: "Maria", surname: "Gutierrez", score: 850, created: "2020-11-03T15:20:21.377Z" }
 ];
+let response = {
+    error: false,
+    code: 200,
+    message: ''
+};
+
 
 function UpdateRanking() {
     //Order the ranking
     players.sort((a, b) => (a.score <= b.score) ? 1 : -1);
 
     //Position Update
-    for (x = 0; x < players.length; x++) {
+    for (var x = 0; x < players.length; x++) {
         players[x].position = x + 1;
     }
 };
@@ -42,7 +43,9 @@ app.get('/ranking', function (req, res) {
     let ranking = { namebreplayers: players.length, players: players };
     res.send(ranking);
 });
-
+app.get('/players', function (req, res){
+    res.send(players);
+});
 app.get('/players/:alias', function (req, res) {
     //Player Search
     var index = players.findIndex(j => j.alias === req.params.alias);
@@ -125,10 +128,11 @@ app.put('/players/:alias', function (req, res) {
             //Response return
             response = code202;
             response.jugador = players[index];
+            
         } else {
             response = codeError504;
         }
     }
     res.send(response);
 });
-module.exports.app = app;
+module.exports = app;
